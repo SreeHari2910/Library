@@ -20,17 +20,16 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public Book findBookByIsbn(String isbn) {
-        return bookRepository.findByIsbn(isbn);
-    }
-
-    public List<Book> searchBooks(String title, String author) {
+    public List<Book> searchBooks(String title, String author, String isbn) {
         if (title != null && !title.isEmpty()) {
-            return bookRepository.findByTitleContaining(title);
+            return bookRepository.findByTitleContainingIgnoreCase(title);
         } else if (author != null && !author.isEmpty()) {
-            return bookRepository.findByAuthorContaining(author);
+            return bookRepository.findByAuthorContainingIgnoreCase(author);
+        } else if (isbn != null && !isbn.isEmpty()) {
+            return bookRepository.findByIsbn(isbn);
+        } else {
+            return bookRepository.findAll();
         }
-        return bookRepository.findAll();
     }
 
     public List<Book> getAllBooks() {

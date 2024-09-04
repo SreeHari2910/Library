@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,8 +43,9 @@ public class LibraryController {
 
     @GetMapping("/books/search")
     public List<Book> searchBooks(@RequestParam(required = false) String title,
-                                  @RequestParam(required = false) String author) {
-        return bookService.searchBooks(title, author);
+                                  @RequestParam(required = false) String author,
+                                  @RequestParam(required = false) String isbn) {
+        return bookService.searchBooks(title, author, isbn);
     }
 
     @GetMapping("/books")
@@ -55,8 +54,13 @@ public class LibraryController {
     }
 
     @PostMapping("/members")
-    public Member addMember(@RequestBody Member member) {
-        return memberService.addMember(member);
+    public ResponseEntity<Member> addMember(@RequestBody Member member) {
+        try {
+            Member savedMember = memberService.addMember(member);
+            return ResponseEntity.ok(savedMember);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @DeleteMapping("/members/{id}")

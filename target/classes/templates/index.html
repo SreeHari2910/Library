@@ -36,12 +36,65 @@
         });
     </script>
 
-    <h2>Member Management</h2>
-    <form th:action="@{/api/members}" method="post">
+    <h2>Search Books</h2>
+    <form id="searchForm">
+        <input type="text" name="title" placeholder="Title" />
+        <input type="text" name="author" placeholder="Author" />
+        <input type="text" name="isbn" placeholder="ISBN" />
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="searchResults"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const params = new URLSearchParams(formData).toString();
+
+            fetch('/api/books/search?' + params)
+                .then(response => response.json())
+                .then(data => {
+                    const results = document.getElementById('searchResults');
+                    results.innerHTML = data.map(book => 
+                        `<div>
+                            <h3>${book.title}</h3>
+                            <p>Author: ${book.author}</p>
+                            <p>ISBN: ${book.isbn}</p>
+                        </div>`
+                    ).join('');
+                });
+        });
+    </script>
+
+    <h2>Add Member</h2>
+    <form id="memberForm">
         <input type="text" name="name" placeholder="Name" required />
         <input type="email" name="email" placeholder="Email" required />
         <button type="submit">Add Member</button>
     </form>
+
+    <script>
+        document.getElementById('memberForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/api/members', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Member added successfully');
+                } else {
+                    alert('Error adding member');
+                }
+            });
+        });
+    </script>
 
     <h2>Borrowing System</h2>
     <form th:action="@{/api/borrowings/borrow}" method="post">
