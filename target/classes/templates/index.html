@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Library Management System</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Optional: Link to a CSS file -->
 </head>
 <body>
     <h1>Library Management System</h1>
@@ -45,6 +46,9 @@
     </form>
 
     <div id="searchResults"></div>
+
+    <!-- Button to navigate to books page -->
+    <button onclick="location.href='/books'">View Library Books</button>
 
     <script>
         document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -96,6 +100,10 @@
         });
     </script>
 
+    <h2>View Library Members</h2>
+    <!-- Button to navigate to members page -->
+    <button onclick="location.href='/members'">View Library Members</button>
+    
     <h2>Borrowing System</h2>
     <form th:action="@{/api/borrowings/borrow}" method="post">
         <input type="number" name="bookId" placeholder="Book ID" required />

@@ -49,6 +49,7 @@ public class LibraryController {
     }
 
     @GetMapping("/books")
+    @ResponseBody
     public List<Book> getAllBooks() {
         return bookService.getAllBooks();
     }
@@ -69,6 +70,7 @@ public class LibraryController {
     }
 
     @GetMapping("/members")
+    @ResponseBody
     public List<Member> getAllMembers() {
         return memberService.getAllMembers();
     }
