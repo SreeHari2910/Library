@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Library Management System</title>
+</head>
+<body>
+    <h1>Library Management System</h1>
+
+    <h2>Book Management</h2>
+    <form id="bookForm">
+        <input type="text" name="title" placeholder="Title" required />
+        <input type="text" name="author" placeholder="Author" required />
+        <input type="text" name="isbn" placeholder="ISBN" required />
+        <button type="submit">Add Book</button>
+    </form>
+
+    <script>
+        document.getElementById('bookForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/api/books', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Book added successfully');
+                } else {
+                    alert('Error adding book');
+                }
+            });
+        });
+    </script>
+
+    <h2>Member Management</h2>
+    <form th:action="@{/api/members}" method="post">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <button type="submit">Add Member</button>
+    </form>
+
+    <h2>Borrowing System</h2>
+    <form th:action="@{/api/borrowings/borrow}" method="post">
+        <input type="number" name="bookId" placeholder="Book ID" required />
+        <input type="number" name="memberId" placeholder="Member ID" required />
+        <button type="submit">Borrow Book</button>
+    </form>
+
+    <form th:action="@{/api/borrowings/return/{id}(id=${borrowingId})}" method="post">
+        <input type="number" name="borrowingId" placeholder="Borrowing ID" required />
+        <button type="submit">Return Book</button>
+    </form>
+</body>
+</html>
