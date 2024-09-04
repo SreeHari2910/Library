@@ -21,6 +21,13 @@
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.name}"></td>
                 <td th:text="${member.email}"></td>
+                <td>
+                    <!-- Form to remove a member -->
+                    <form th:action="@{/removeMember}" method="post">
+                        <input type="hidden" name="id" th:value="${member.id}" />
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>

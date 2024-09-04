@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class LibraryWebController {
         model.addAttribute("books", books);
         return "books"; // This will render the books.html template
     }
-    
+
     @GetMapping("/members")
     public String viewMembers(Model model) {
         List<Member> members = memberService.getAllMembers();
@@ -38,4 +40,15 @@ public class LibraryWebController {
         return "members"; // This will render the members.html template
     }
 
+    @PostMapping("/removeBook")
+    public String removeBook(@RequestParam("id") Long id, Model model) {
+        bookService.removeBook(id);
+        return "redirect:/books"; // Redirect to the books page after removal
+    }
+
+    @PostMapping("/removeMember")
+    public String removeMember(@RequestParam("id") Long id, Model model) {
+        memberService.removeMember(id);
+        return "redirect:/members"; // Redirect to the members page after removal
+    }
 }

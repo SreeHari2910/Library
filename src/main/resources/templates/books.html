@@ -23,6 +23,13 @@
                 <td th:text="${book.title}"></td>
                 <td th:text="${book.author}"></td>
                 <td th:text="${book.isbn}"></td>
+                <td>
+                    <!-- Form to remove a book -->
+                    <form th:action="@{/removeBook}" method="post">
+                        <input type="hidden" name="id" th:value="${book.id}" />
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
