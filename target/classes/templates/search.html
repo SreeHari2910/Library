@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Optional: Link to a CSS file -->
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <div th:if="${error}">
+        <p th:text="${error}" style="color: red;"></p>
+    </div>
+
+    <table border="1" th:if="${books != null}">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.isbn}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

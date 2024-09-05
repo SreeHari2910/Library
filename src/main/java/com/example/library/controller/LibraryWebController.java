@@ -51,4 +51,17 @@ public class LibraryWebController {
         memberService.removeMember(id);
         return "redirect:/members"; // Redirect to the members page after removal
     }
+
+    @GetMapping("/searchBooks")
+    public String searchBooks(@RequestParam("query") String query, Model model) {
+        try {
+            List<Book> books = bookService.searchBooks(query);
+            model.addAttribute("books", books);
+            return "search"; // Ensure you have search.html in templates folder
+        } catch (Exception e) {
+            // Handle any exceptions that might occur
+            model.addAttribute("error", "An error occurred while searching for books");
+            return "error"; // Optionally return an error page or message
+        }
+    }
 }
